@@ -32,7 +32,7 @@ class ProcfileUpstartExporter::Creator
       )
     end
     ProcfileUpstartExporter.logger.info 'Created Upstart jobs for ' \
-                                        "#{ application }"
+                                        "`#{ application }'"
   end
 
   private

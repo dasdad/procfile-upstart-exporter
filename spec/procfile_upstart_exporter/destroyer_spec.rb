@@ -6,15 +6,18 @@ describe ProcfileUpstartExporter::Destroyer do
   describe '#destroy' do
     let(:application) { 'application' }
     let(:path)        { temp_dir      }
+    let(:application_path) { "#{ path }/#{ application }" }
+    let(:application_job)  { "#{ path }/#{ application }.conf" }
+    let(:process_job)      { "#{ path }/#{ application }/web.conf" }
 
     let(:act) {
       destroyer.destroy application, path
     }
 
     before do
-      FileUtils.mkdir_p "#{ path }/#{ application }"
-      FileUtils.touch   "#{ path }/#{ application }.conf"
-      FileUtils.touch   "#{ path }/#{ application }/web.conf"
+      FileUtils.mkdir_p application_path
+      FileUtils.touch   application_job
+      FileUtils.touch   process_job
       allow(Kernel).to receive(:system)
     end
 
@@ -23,6 +26,11 @@ describe ProcfileUpstartExporter::Destroyer do
       act
     end
 
-    it 'deletes Upstart jobs'
+    it 'deletes Upstart jobs' do
+      act
+      [application_path, application_job, process_job].each do |path|
+        expect(File.exists? path).to be_false
+      end
+    end
   end
 end
