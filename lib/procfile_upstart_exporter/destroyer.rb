@@ -1,5 +1,5 @@
 class ProcfileUpstartExporter::Destroyer
   def destroy application, path
-    fail NotImplementedError
+    Kernel.system 'stop', application
   end
 end
