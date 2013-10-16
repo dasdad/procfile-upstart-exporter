@@ -11,6 +11,8 @@ class ProcfileUpstartExporter::Creator
 
     FileUtils.cp application_template, application_job
     FileUtils.mkdir application_path
+    FileUtils.mkdir log
+    FileUtils.chown user, user, log
     procfile_parser.parse(procfile).each do |process|
       File.write(
         File.join(application_path, "#{ process.name }.conf"),

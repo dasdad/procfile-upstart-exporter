@@ -1,6 +1,7 @@
 require_relative '../lib/procfile-upstart-exporter'
 
 require 'fileutils'
+require 'etc'
 
 Dir.glob('./spec/support/**/*.rb').each { |file| require file }
 
