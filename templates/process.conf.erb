@@ -13,4 +13,4 @@ env <%= environment_variable %>
 
 chdir <%= application_root %>
 
-exec bash -lc 'chruby-exec ruby -- <%= process.command %> >> <%= log %>/<%= application %>/<%= process.name %>.log 2>&1'
+exec bash -lc '<%= process.command %> >> <%= log %>/<%= application %>/<%= process.name %>.log 2>&1'
