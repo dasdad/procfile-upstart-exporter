@@ -2,39 +2,73 @@ require 'spec_helper'
 
 describe ProcfileUpstartExporter::Creator do
   subject(:creator) {
-    ProcfileUpstartExporter::Creator.new procfile_parser, environment_parser
+    ProcfileUpstartExporter::Creator.new procfile_parser, environment_parser,
+                                         process_job_renderer
   }
 
-  let(:procfile_parser)    { double parse: processes             }
-  let(:environment_parser) { double parse: environment_variables }
-  let(:processes)       {
-    [
-      ProcfileUpstartExporter::Process.with(
-        name: 'web',
-        command: 'bundle exec rails server -p 5000'),
-      ProcfileUpstartExporter::Process.with(
-        name: 'background',
-        command: 'bundle exec sidekiq'),
-    ]
-  }
-  let(:environment_variables) {
-    %w{ RAILS_ENV=production DATABASE_URL=postgresl://localhost:4567 }
-  }
+  let(:procfile_parser)      { double }
+  let(:environment_parser)   { double }
+  let(:process_job_renderer) { double }
 
   describe '#create' do
-    let(:application)       { 'application'       }
-    let(:procfile)          { 'Procfile'          }
-    let(:log)               { "#{ temp_dir }/log" }
-    let(:environment)       { '.env'              }
-    let(:user)              { 'bin'               }
-    let(:upstart_jobs_path) { temp_dir            }
+    let(:application)       { 'application'                      }
+    let(:procfile)          { 'Procfile'                         }
+    let(:log)               { "#{ temp_dir }/log"                }
+    let(:environment)       { '.env'                             }
+    let(:user)              { 'bin'                              }
+    let(:upstart_jobs_path) { temp_dir                           }
+    let(:application_root)  {
+      File.expand_path 'spec/fixtures/sample-application'
+    }
+    let(:environment_variables) {
+      %w{ RAILS_ENV=production DATABASE_URL=postgresl://localhost:4567 }
+    }
+    let(:web_process) {
+      ProcfileUpstartExporter::Process.with(
+        name: 'web',
+        command: 'bundle exec rails server -p 5000'
+      )
+    }
+    let(:background_process) {
+      ProcfileUpstartExporter::Process.with(
+        name: 'background',
+        command: 'bundle exec sidekiq'
+      )
+    }
 
-    def act
-      allow(FileUtils).to receive(:chown)
+    let(:act) {
       Dir.chdir 'spec/fixtures/sample-application' do
         creator.create application, procfile, log, environment, user,
                                                               upstart_jobs_path
       end
+    }
+
+    before do
+      allow(procfile_parser).to receive(:parse)
+        .and_return [web_process, background_process]
+
+      allow(environment_parser).to receive(:parse)
+                                   .and_return environment_variables
+
+      allow(process_job_renderer).to receive(:render)
+        .with(application, user, environment_variables, application_root,
+              log, web_process)
+        .and_return <<-JOB_CONFIGURATION
+env RAILS_ENV=production
+env DATABASE_URL=postgresl://localhost:4567
+exec bundle exec rails server -p 5000
+JOB_CONFIGURATION
+
+      allow(process_job_renderer).to receive(:render)
+        .with(application, user, environment_variables, application_root,
+              log, background_process)
+        .and_return <<-JOB_CONFIGURATION
+env RAILS_ENV=production
+env DATABASE_URL=postgresl://localhost:4567
+exec bundle exec sidekiq
+JOB_CONFIGURATION
+
+      allow(FileUtils).to receive(:chown)
     end
 
     it 'creates an Upstart job for the application' do
@@ -44,14 +78,14 @@ describe ProcfileUpstartExporter::Creator do
       ).to be_true
     end
 
-    it 'creates an Upstart job for each process in Procfile' do
+    it 'renders the Upstart job template for each process in Procfile' do
       act
       expect(
-        File.exists? "#{ upstart_jobs_path }/#{ application }/web.conf"
-      ).to be_true
+        File.read "#{ upstart_jobs_path }/#{ application }/web.conf"
+      ).to match 'bundle exec rails server -p 5000'
       expect(
-        File.exists? "#{ upstart_jobs_path }/#{ application }/background.conf"
-      ).to be_true
+        File.read "#{ upstart_jobs_path }/#{ application }/background.conf"
+      ).to match 'bundle exec sidekiq'
     end
 
     it 'creates a folder for logging owned by the user' do

@@ -11,6 +11,6 @@ env HOME=<%= home %>
 env <%= environment_variable %>
 <% end -%>
 
-chdir <%= directory %>
+chdir <%= application_root %>
 
-exec bash -lc 'chruby-exec ruby -- <%= command %> >> <%= log %>/<%= application %>/<%= process %>.log 2>&1'
+exec bash -lc 'chruby-exec ruby -- <%= process.command %> >> <%= log %>/<%= application %>/<%= process.name %>.log 2>&1'

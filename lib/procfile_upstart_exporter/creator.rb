@@ -1,10 +1,12 @@
 class ProcfileUpstartExporter::Creator
   def initialize(
-    procfile_parser = ProcfileUpstartExporter::ProcfileParser.new,
-    environment_parser   = ProcfileUpstartExporter::EnvironmentParser.new
+    procfile_parser      = ProcfileUpstartExporter::ProcfileParser.new,
+    environment_parser   = ProcfileUpstartExporter::EnvironmentParser.new,
+    process_job_renderer = ProcfileUpstartExporter::ProcessJobRenderer.new
   )
-    self.procfile_parser = procfile_parser
+    self.procfile_parser      = procfile_parser
     self.environment_parser   = environment_parser
+    self.process_job_renderer = process_job_renderer
   end
 
   def create(application, procfile, log, environment, user, upstart_jobs_path,
@@ -20,7 +22,11 @@ class ProcfileUpstartExporter::Creator
     procfile_parser.parse(procfile).each do |process|
       File.write(
         File.join(application_path, "#{ process.name }.conf"),
-        environment_parser.parse(environment).join)
+        process_job_renderer.render(
+          application, user, environment_parser.parse(environment),
+          Dir.pwd, log, process
+        )
+      )
     end
   end
 
@@ -28,4 +34,5 @@ class ProcfileUpstartExporter::Creator
 
   attr_accessor :procfile_parser
   attr_accessor :environment_parser
+  attr_accessor :process_job_renderer
 end
