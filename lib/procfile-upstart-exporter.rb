@@ -1,0 +1,4 @@
+module ProcfileUpstartExporter
+end
+
+require_relative 'procfile_upstart_exporter/version'

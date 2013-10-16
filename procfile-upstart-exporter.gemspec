@@ -1,4 +1,7 @@
-require_relative 'procfile_upstart_exporter/version'
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'procfile_upstart_exporter/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'procfile-upstart-exporter'
