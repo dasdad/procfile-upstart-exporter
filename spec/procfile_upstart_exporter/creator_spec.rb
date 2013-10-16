@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe ProcfileUpstartExporter::Creator do
-  subject(:creator) { ProcfileUpstartExporter::Creator.new procfile_parser }
+  subject(:creator) {
+    ProcfileUpstartExporter::Creator.new procfile_parser, environment_parser
+  }
 
-  let(:procfile_parser) { double parse: processes }
+  let(:procfile_parser)    { double parse: processes             }
+  let(:environment_parser) { double parse: environment_variables }
   let(:processes)       {
     [
       ProcfileUpstartExporter::Process.with(
@@ -13,6 +16,9 @@ describe ProcfileUpstartExporter::Creator do
         name: 'background',
         command: 'bundle exec sidekiq'),
     ]
+  }
+  let(:environment_variables) {
+    %w{ RAILS_ENV=production DATABASE_URL=postgresl://localhost:4567 }
   }
 
   describe '#create' do
@@ -54,6 +60,11 @@ describe ProcfileUpstartExporter::Creator do
       expect(File.directory? log).to be_true
     end
 
-    it "places environment variables from `.env' in process' Upstart job"
+    it "places environment variables from `.env' in process' Upstart job" do
+      act
+      expect(
+        File.read("#{ upstart_jobs_path }/#{ application }/background.conf")
+      ).to match 'RAILS_ENV=production'
+    end
   end
 end

@@ -1,6 +1,10 @@
 class ProcfileUpstartExporter::Creator
-  def initialize procfile_parser = ProcfileUpstartExporter::ProcfileParser.new
+  def initialize(
+    procfile_parser = ProcfileUpstartExporter::ProcfileParser.new,
+    environment_parser   = ProcfileUpstartExporter::EnvironmentParser.new
+  )
     self.procfile_parser = procfile_parser
+    self.environment_parser   = environment_parser
   end
 
   def create(application, procfile, log, environment, user, upstart_jobs_path,
@@ -16,11 +20,12 @@ class ProcfileUpstartExporter::Creator
     procfile_parser.parse(procfile).each do |process|
       File.write(
         File.join(application_path, "#{ process.name }.conf"),
-        'banana')
+        environment_parser.parse(environment).join)
     end
   end
 
   private
 
   attr_accessor :procfile_parser
+  attr_accessor :environment_parser
 end
