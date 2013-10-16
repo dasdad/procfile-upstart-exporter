@@ -6,7 +6,7 @@ respawn
 setuid <%= user %>
 setgid <%= user %>
 
-env HOME=/home/<%= user %>
+env HOME=<%= home %>
 <%- environment_variables.each do |environment_variable| %>
 env <%= environment_variable %>
 <% end -%>

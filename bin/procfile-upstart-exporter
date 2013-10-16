@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/procfile_upstart_exporter/cli'
+
+ProcfileUpstartExporter::Cli.start ARGV

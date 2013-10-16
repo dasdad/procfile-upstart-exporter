@@ -42,18 +42,21 @@ Usage
 ### Create [Upstart][upstart] jobs configuration
 
 ```console
-# procfile-upstart-exporter export \
-    --application <application>
-    --procfile <path-to-procfile>
-    --log <path-to-log>
-    --environment <path-to-dotenv-file>
-    --user <user-to-run-job>
+# procfile-upstart-exporter export                                            \
+    --application <application>                                               \
+    --procfile <path-to-procfile>                                             \
+    --log <path-to-log>                                                       \
+    --environment <path-to-dotenv-file>                                       \
+    --user <user-to-run-job>                                                  \
+    --path <path-where-upstart-jobs-will-be-created>
 ```
 
 ### Delete [Upstart][upstart] jobs configuration
 
 ```console
-# procfile-upstart-exporter destroy --application <application>
+# procfile-upstart-exporter destroy                                           \
+    --application <application>                                               \
+    --path <path-where-upstart-jobs-are-found>
 ```
 
 License
