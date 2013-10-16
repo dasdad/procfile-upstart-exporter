@@ -43,17 +43,17 @@ Usage
 
 ```console
 # procfile-upstart-exporter export \
-    --app <application>
+    --application <application>
     --procfile <path-to-procfile>
     --log <path-to-log>
-    --env <path-to-dotenv-file>
+    --environment <path-to-dotenv-file>
     --user <user-to-run-job>
 ```
 
 ### Delete [Upstart][upstart] jobs configuration
 
 ```console
-# procfile-upstart-exporter destroy --app <application>
+# procfile-upstart-exporter destroy --application <application>
 ```
 
 License

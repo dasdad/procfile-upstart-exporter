@@ -1,0 +1,16 @@
+start on starting <%= application %>
+stop  on stopping <%= application %>
+
+respawn
+
+setuid <%= user %>
+setgid <%= user %>
+
+env HOME=/home/<%= user %>
+<%- environment_variables.each do |environment_variable| %>
+env <%= environment_variable %>
+<% end -%>
+
+chdir <%= directory %>
+
+exec bash -lc 'chruby-exec ruby -- <%= command %> >> <%= log %>/<%= application %>/<%= process %>.log 2>&1'
