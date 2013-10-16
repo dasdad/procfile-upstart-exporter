@@ -1,5 +1,5 @@
-class ProcfileUpstartExporter::DotenvParser
-  def parse dotenv
-    fail NotImplmentedError
+class ProcfileUpstartExporter::EnvironmentParser
+  def parse environment
+    File.read(environment).split("\n")
   end
 end
