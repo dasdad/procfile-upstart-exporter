@@ -11,12 +11,13 @@ describe ProcfileUpstartExporter::Creator do
   let(:process_job_renderer) { double }
 
   describe '#create' do
-    let(:application)       { 'application'                      }
-    let(:procfile)          { 'Procfile'                         }
-    let(:log)               { "#{ temp_dir }/log"                }
-    let(:environment)       { '.env'                             }
-    let(:user)              { 'bin'                              }
-    let(:upstart_jobs_path) { temp_dir                           }
+    let(:application)       { 'application'              }
+    let(:procfile)          { 'Procfile'                 }
+    let(:log)               { "#{ temp_dir }/log"        }
+    let(:application_log)   { "#{ log }/#{ application}" }
+    let(:environment)       { '.env'                     }
+    let(:user)              { 'bin'                      }
+    let(:upstart_jobs_path) { temp_dir                   }
     let(:application_root)  {
       File.expand_path 'spec/fixtures/sample-application'
     }
@@ -89,9 +90,9 @@ JOB_CONFIGURATION
     end
 
     it 'creates a folder for logging owned by the user' do
-      expect(FileUtils).to receive(:chown).with(user, user, log)
+      expect(FileUtils).to receive(:chown).with(user, user, application_log)
       act
-      expect(File.directory? log).to be_true
+      expect(File.directory? application_log).to be_true
     end
 
     it "places environment variables from `.env' in process' Upstart job" do

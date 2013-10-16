@@ -14,11 +14,12 @@ class ProcfileUpstartExporter::Creator
     application_template = File.join templates_path, 'application.conf'
     application_job      = File.join upstart_jobs_path, "#{ application }.conf"
     application_path     = File.join upstart_jobs_path, application
+    application_log_path = File.join log, application
 
     FileUtils.cp application_template, application_job
-    FileUtils.mkdir application_path
-    FileUtils.mkdir log
-    FileUtils.chown user, user, log
+    FileUtils.mkdir_p application_path
+    FileUtils.mkdir_p application_log_path
+    FileUtils.chown user, user, application_log_path
     procfile_parser.parse(procfile).each do |process|
       File.write(
         File.join(application_path, "#{ process.name }.conf"),
