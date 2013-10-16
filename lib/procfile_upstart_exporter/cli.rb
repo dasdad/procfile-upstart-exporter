@@ -2,6 +2,7 @@ require_relative '../procfile-upstart-exporter'
 require 'thor'
 
 class ProcfileUpstartExporter::Cli < Thor
+  class_option :verbose, type: :boolean
 
   def initialize(*)
     super
@@ -17,6 +18,7 @@ class ProcfileUpstartExporter::Cli < Thor
   option :user, default: 'app'
   option :path, default: '/etc/init'
   def create
+    enter_verbose_mode if options[:verbose]
     creator.create options[:application],
                    options[:procfile],
                    options[:log],
@@ -29,6 +31,7 @@ class ProcfileUpstartExporter::Cli < Thor
   option :application, default: File.basename(Dir.pwd)
   option :path, default: '/etc/init'
   def destroy
+    enter_verbose_mode if options[:verbose]
     destroyer.destroy options[:application], options[:path]
   end
 
@@ -36,4 +39,8 @@ class ProcfileUpstartExporter::Cli < Thor
 
   attr_accessor :creator
   attr_accessor :destroyer
+
+  def enter_verbose_mode
+    ProcfileUpstartExporter.logger.level = Logger::DEBUG
+  end
 end

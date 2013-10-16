@@ -48,7 +48,8 @@ Usage
     --log <path-to-log>                                                       \
     --environment <path-to-dotenv-file>                                       \
     --user <user-to-run-job>                                                  \
-    --path <path-where-upstart-jobs-will-be-created>
+    --path <path-where-upstart-jobs-will-be-created>                          \
+    --verbose
 ```
 
 ### Delete [Upstart][upstart] jobs configuration
@@ -56,7 +57,8 @@ Usage
 ```console
 # procfile-upstart-exporter destroy                                           \
     --application <application>                                               \
-    --path <path-where-upstart-jobs-are-found>
+    --path <path-where-upstart-jobs-are-found>                                \
+    --verbose
 ```
 
 License

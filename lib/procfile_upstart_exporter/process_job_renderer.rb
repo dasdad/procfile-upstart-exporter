@@ -13,6 +13,7 @@ class ProcfileUpstartExporter::ProcessJobRenderer
 
   def render application, user, environment_variables, application_root,
              log, process
+    ProcfileUpstartExporter.logger.debug 'Start rendering process job'
     # Double assign to avoid warnings
     home = home = Etc.getpwnam(user).dir
     @erb.result binding

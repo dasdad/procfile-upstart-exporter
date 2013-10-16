@@ -10,7 +10,9 @@ class ProcfileUpstartExporter::Creator
   end
 
   def create(application, procfile, log, environment, user, upstart_jobs_path,
-             templates_path = File.expand_path('../../../templates', __FILE__))
+             templates_path = File.expand_path('../../../templates', __FILE__)
+    )
+    ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs creation'
     application_template = File.join templates_path, 'application.conf'
     application_job      = File.join upstart_jobs_path, "#{ application }.conf"
     application_path     = File.join upstart_jobs_path, application
@@ -29,6 +31,8 @@ class ProcfileUpstartExporter::Creator
         )
       )
     end
+    ProcfileUpstartExporter.logger.info 'Created Upstart jobs for ' \
+                                        "#{ application }"
   end
 
   private
