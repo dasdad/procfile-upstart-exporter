@@ -22,7 +22,8 @@ describe ProcfileUpstartExporter::Destroyer do
     end
 
     it 'stops the jobs' do
-      expect(Kernel).to receive(:system).with 'stop', application
+      expect(IO).to receive(:popen).with(['stop', application],
+                                         err: [:child, :out]).and_call_original
       act
     end
 

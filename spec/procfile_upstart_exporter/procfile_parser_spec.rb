@@ -9,7 +9,7 @@ describe ProcfileUpstartExporter::ProcfileParser do
     let(:procfile) { 'spec/fixtures/sample-application/Procfile' }
 
     it 'reads Procfile' do
-      expect(File).to receive(:read).with(procfile).and_return('')
+      expect(File).to receive(:read).with(procfile).and_call_original
       subject
     end
 
