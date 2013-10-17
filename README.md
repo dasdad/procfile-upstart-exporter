@@ -50,7 +50,7 @@ Usage
 ### Create [Upstart][upstart] jobs configuration
 
 ```console
-# procfile-upstart-exporter export                                            \
+# procfile-upstart-exporter create                                            \
     --application <application>                                               \
     --procfile <path-to-procfile>                                             \
     --log <path-to-log>                                                       \
