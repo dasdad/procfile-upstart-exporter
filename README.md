@@ -1,11 +1,11 @@
 Procfile Upstart Exporter
 =========================
 
-[![Gem Version][https://fury-badge.herokuapp.com/rb/procfile-upstart-exporter.png]](http://badge.fury.io/rb/procfile-upstart-exporter)
-[![Build Status][https://travis-ci.org/dasdad/procfile-upstart-exporter.png]](https://travis-ci.org/dasdad/procfile-upstart-exporter)
-[![Code Climate][https://codeclimate.com/github/dasdad/procfile-upstart-exporter.png]](https://codeclimate.com/github/dasdad/procfile-upstart-exporter)
-[![Dependency Status][https://gemnasium.com/dasdad/procfile-upstart-exporter.png]](https://gemnasium.com/dasdad/procfile-upstart-exporter)
-[![Coverage Status][https://coveralls.io/repos/dasdad/procfile-upstart-exporter/badge.png]](https://coveralls.io/r/dasdad/procfile-upstart-exporter)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/procfile-upstart-exporter.png)](http://badge.fury.io/rb/procfile-upstart-exporter)
+[![Build Status](https://travis-ci.org/dasdad/procfile-upstart-exporter.png)](https://travis-ci.org/dasdad/procfile-upstart-exporter)
+[![Code Climate](https://codeclimate.com/github/dasdad/procfile-upstart-exporter.png)](https://codeclimate.com/github/dasdad/procfile-upstart-exporter)
+[![Dependency Status](https://gemnasium.com/dasdad/procfile-upstart-exporter.png)](https://gemnasium.com/dasdad/procfile-upstart-exporter)
+[![Coverage Status](https://coveralls.io/repos/dasdad/procfile-upstart-exporter/badge.png)](https://coveralls.io/r/dasdad/procfile-upstart-exporter)
 
 Export [Procfile][procfile] entries to [Upstart][upstart] jobs.
 
