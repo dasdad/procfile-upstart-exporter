@@ -1,6 +1,12 @@
 Procfile Upstart Exporter
 =========================
 
+[![Gem Version][1]](http://badge.fury.io/rb/procfile-upstart-exporter)
+[![Build Status][2]](https://travis-ci.org/dasdad/procfile-upstart-exporter)
+[![Code Climate][3]](https://codeclimate.com/github/dasdad/procfile-upstart-exporter)
+[![Dependency Status][4]](https://gemnasium.com/dasdad/procfile-upstart-exporter)
+[![Coverage Status][5]](https://coveralls.io/r/dasdad/procfile-upstart-exporter)
+
 Export [Procfile][procfile] entries to [Upstart][upstart] jobs.
 
 Y U no [Foreman][foreman]?
