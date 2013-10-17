@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Das Dad']
   spec.email         = ['dev@dasdad.com.br']
   spec.description   = %q{Export Procfile entries to Upstart jobs.}
-  spec.summary       = %q{Export Procfile entries to Upstart jobs.}
+  spec.summary       = %q{Solve common problems with `foreman export`}
   spec.homepage      = 'https://github.com/dasdad/procfile-upstart-exporter'
   spec.license       = 'MIT'
 
