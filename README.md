@@ -26,6 +26,8 @@ I find them lacking for the following reasons:
    Specific processes could be started/stopped with
    `<action> <application>/<process>`. For example, start the job configured
    in `/etc/init/application/web` with `start application/web`.
+3. When jobs change their name or are removed, they are never deleted from
+   `/etc/init`.
 
 [Procfile Upstart Exporter][procfile-upstart-exporter] makes this possible.
 
