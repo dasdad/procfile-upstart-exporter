@@ -2,6 +2,12 @@ class ProcfileUpstartExporter::EnvironmentParser
   def parse environment
     ProcfileUpstartExporter.logger.debug "Start parsing environment file " \
                                          "`#{ environment }'"
-    File.read(environment).split("\n")
+    if File.exists? environment
+      File.read(environment).split("\n")
+    else
+      ProcfileUpstartExporter.logger.debug "Environment file " \
+                                           "`#{ environment }' does not exist"
+      []
+    end
   end
 end

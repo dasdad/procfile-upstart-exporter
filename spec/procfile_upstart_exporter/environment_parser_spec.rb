@@ -11,7 +11,7 @@ describe ProcfileUpstartExporter::EnvironmentParser do
     let(:environment) { 'spec/fixtures/sample-application/.env' }
 
     it 'reads the environment file' do
-      expect(File).to receive(:read).with(environment).and_return('')
+      expect(File).to receive(:read).with(environment).and_call_original
       subject
     end
 
@@ -19,6 +19,14 @@ describe ProcfileUpstartExporter::EnvironmentParser do
       expect(environment_variables).to eq(
         %w{ RAILS_ENV=production DATABASE_URL=postgresl://localhost:4567 }
       )
+    end
+
+    context 'environment file does not exist' do
+      let(:environment) { 'non-existing-file' }
+
+      it 'returns an empty Array' do
+        expect(environment_variables).to eq([])
+      end
     end
   end
 end
