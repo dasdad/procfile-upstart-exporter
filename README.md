@@ -69,6 +69,14 @@ Usage
     --verbose
 ```
 
+New release procedure
+---------------------
+
+1. Bump version.
+2. Update changelog.
+3. Push tag with version. For example, `v1.2.3`.
+4. Publish in [RubyGems][ruby-gem].
+
 License
 -------
 
