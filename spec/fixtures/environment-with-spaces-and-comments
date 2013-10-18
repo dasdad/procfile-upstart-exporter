@@ -1,0 +1,8 @@
+# This is a comment, it should not be treated as environment variable.
+# The following line is empty, it should also be ignored:
+
+# The following line contains only spaces, thus should be ignored as well:
+    
+        # This is a comment that starts after a few spaces
+
+AN_ENVIRONMENT_VARIABLE=at_least

@@ -28,5 +28,16 @@ describe ProcfileUpstartExporter::EnvironmentParser do
         expect(environment_variables).to eq([])
       end
     end
+
+    context 'environment file has empty lines and comments' do
+      let(:environment) {
+        'spec/fixtures/environment-with-spaces-and-comments'
+      }
+      it 'removes the empty lines and comments' do
+        expect(environment_variables).to eq(
+          ['AN_ENVIRONMENT_VARIABLE=at_least']
+        )
+      end
+    end
   end
 end
