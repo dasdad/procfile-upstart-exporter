@@ -69,6 +69,19 @@ Usage
     --verbose
 ```
 
+Changelog
+---------
+
+### `v0.0.2`
+
+- Warn if `Procfile` or `.env` don't exist.
+- Treat properly spaces and comment lines in `.env`.
+
+### `v0.0.1`
+
+- First implementation of `craete` and `destroy` commands with basic
+  functionality.
+
 New release procedure
 ---------------------
 
