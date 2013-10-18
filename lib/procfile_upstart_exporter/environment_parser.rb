@@ -5,8 +5,8 @@ class ProcfileUpstartExporter::EnvironmentParser
     if File.exists? environment
       File.read(environment).split("\n")
     else
-      ProcfileUpstartExporter.logger.debug "Environment file " \
-                                           "`#{ environment }' does not exist"
+      ProcfileUpstartExporter.logger.warn "Environment file " \
+                                          "`#{ environment }' does not exist"
       []
     end
   end

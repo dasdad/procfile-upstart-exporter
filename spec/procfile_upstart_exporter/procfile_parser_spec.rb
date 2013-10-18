@@ -25,5 +25,13 @@ describe ProcfileUpstartExporter::ProcfileParser do
         )
       ])
     end
+
+    context 'inexistent Procfile' do
+      let(:procfile) { 'inexistent' }
+
+      it 'returns an empty Array' do
+        expect(processes).to eq([])
+      end
+    end
   end
 end

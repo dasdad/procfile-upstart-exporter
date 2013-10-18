@@ -2,10 +2,16 @@ class ProcfileUpstartExporter::ProcfileParser
   def parse procfile
     ProcfileUpstartExporter.logger.debug 'Start parsing Procfile ' \
                                          "`#{ procfile }'"
-    File.read(procfile).split("\n").map do |process_line|
-      ProcfileUpstartExporter::Process.new(
-        *process_line.scan(/\A([^:]+):(.*)\z/).first.map(&:strip)
-      )
+    if File.exists? procfile
+      File.read(procfile).split("\n").map do |process_line|
+        ProcfileUpstartExporter::Process.new(
+          *process_line.scan(/\A([^:]+):(.*)\z/).first.map(&:strip)
+        )
+      end
+    else
+      ProcfileUpstartExporter.logger.warn "Procfile file " \
+                                          "`#{ procfile }' does not exist"
+      []
     end
   end
 end
