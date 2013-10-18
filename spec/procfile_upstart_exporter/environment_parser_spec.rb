@@ -8,7 +8,7 @@ describe ProcfileUpstartExporter::EnvironmentParser do
   describe '#parse' do
     subject(:environment_variables) { environment_parser.parse environment }
 
-    let(:environment) { 'spec/fixtures/sample-application/.env' }
+    let(:environment) { 'spec/fixtures/sample-application/environment' }
 
     it 'reads the environment file' do
       expect(File).to receive(:read).with(environment).and_call_original

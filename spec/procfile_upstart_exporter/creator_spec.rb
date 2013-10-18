@@ -15,7 +15,7 @@ describe ProcfileUpstartExporter::Creator do
     let(:procfile)          { 'Procfile'                 }
     let(:log)               { "#{ temp_dir }/log"        }
     let(:application_log)   { "#{ log }/#{ application}" }
-    let(:environment)       { '.env'                     }
+    let(:environment)       { 'environment'              }
     let(:user)              { 'bin'                      }
     let(:upstart_jobs_path) { temp_dir                   }
     let(:application_root)  {
@@ -95,7 +95,7 @@ JOB_CONFIGURATION
       expect(File.directory? application_log).to be_true
     end
 
-    it "places environment variables from `.env' in process' Upstart job" do
+    it "places environment variables from environment file in Upstart job" do
       act
       expect(
         File.read("#{ upstart_jobs_path }/#{ application }/background.conf")
