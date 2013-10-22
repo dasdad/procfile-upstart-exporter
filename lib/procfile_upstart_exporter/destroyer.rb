@@ -4,7 +4,7 @@ class ProcfileUpstartExporter::Destroyer
   end
 
   def destroy application, path, procfile = nil
-    ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs deletion' \
+    ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs deletion ' \
                                          "for `#{ application }'"
     if procfile
       destroy_jobs application, path, procfile_parser.parse(procfile)

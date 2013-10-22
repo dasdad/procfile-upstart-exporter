@@ -72,6 +72,11 @@ Usage
 Changelog
 ---------
 
+### `v0.0.3`
+
+- Fix logging in job destruction.
+- Only stop and destroy needed jobs.
+
 ### `v0.0.2`
 
 - Warn if `Procfile` or `.env` don't exist.
