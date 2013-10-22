@@ -1,6 +1,6 @@
 class ProcfileUpstartExporter::Destroyer
   def destroy application, path
-    ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs deletion'
+    ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs deletion' \
                                          "for `#{ application }'"
     stopping_output = IO.popen(['stop', application], err: [:child, :out]).read
     ProcfileUpstartExporter.logger.debug stopping_output
