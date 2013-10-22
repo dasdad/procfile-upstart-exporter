@@ -11,6 +11,13 @@ describe ProcfileUpstartExporter::Creator do
   let(:process_job_renderer) { double }
 
   describe '#create' do
+    subject(:create) {
+      Dir.chdir 'spec/fixtures/sample-application' do
+        creator.create application, procfile, log, environment, user,
+                                                              upstart_jobs_path
+      end
+    }
+
     let(:application)       { 'application'              }
     let(:procfile)          { 'Procfile'                 }
     let(:log)               { "#{ temp_dir }/log"        }
@@ -35,13 +42,6 @@ describe ProcfileUpstartExporter::Creator do
         name: 'background',
         command: 'bundle exec sidekiq'
       )
-    }
-
-    let(:act) {
-      Dir.chdir 'spec/fixtures/sample-application' do
-        creator.create application, procfile, log, environment, user,
-                                                              upstart_jobs_path
-      end
     }
 
     before do
@@ -73,14 +73,14 @@ JOB_CONFIGURATION
     end
 
     it 'creates an Upstart job for the application' do
-      act
+      create
       expect(
         File.exists? "#{ upstart_jobs_path }/#{ application }.conf"
       ).to be_true
     end
 
     it 'renders the Upstart job template for each process in Procfile' do
-      act
+      create
       expect(
         File.read "#{ upstart_jobs_path }/#{ application }/web.conf"
       ).to match 'bundle exec rails server -p 5000'
@@ -91,12 +91,12 @@ JOB_CONFIGURATION
 
     it 'creates a folder for logging owned by the user' do
       expect(FileUtils).to receive(:chown).with(user, user, application_log)
-      act
+      create
       expect(File.directory? application_log).to be_true
     end
 
     it "places environment variables from environment file in Upstart job" do
-      act
+      create
       expect(
         File.read("#{ upstart_jobs_path }/#{ application }/background.conf")
       ).to match 'RAILS_ENV=production'

@@ -18,7 +18,8 @@ class ProcfileUpstartExporter::Cli < Thor
   option :user, default: 'app'
   option :path, default: '/etc/init'
   def create
-    destroy
+    enter_verbose_mode if options[:verbose]
+    destroyer.destroy options[:application], options[:path], options[:procfile]
     creator.create options[:application],
                    options[:procfile],
                    options[:log],
