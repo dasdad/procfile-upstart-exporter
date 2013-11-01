@@ -72,6 +72,10 @@ Usage
 Changelog
 ---------
 
+### `v0.0.4`
+
+- Add `umask` to [Upstart][upstart] template.
+
 ### `v0.0.3`
 
 - Fix logging in job destruction.
