@@ -6,6 +6,8 @@ respawn
 setuid <%= user %>
 setgid <%= user %>
 
+umask 0002
+
 env HOME=<%= home %>
 <%- environment_variables.each do |environment_variable| -%>
 env <%= environment_variable %>
