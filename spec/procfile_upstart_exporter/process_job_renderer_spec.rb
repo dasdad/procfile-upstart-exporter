@@ -37,6 +37,8 @@ respawn
 setuid bin
 setgid bin
 
+umask 0002
+
 env HOME=/bin
 env RAILS_ENV=production
 env DATABASE_URL=postgresl://localhost:4567
