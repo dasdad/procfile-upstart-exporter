@@ -7,12 +7,13 @@ describe ProcfileUpstartExporter::ProcessJobRenderer do
 
   describe '#render' do
     subject(:process_job) {
-      process_job_renderer.render application, user, environment_variables,
+      process_job_renderer.render application, user, group, environment_variables,
                                   application_root, log, process
     }
 
     let(:application)       { 'application'                      }
     let(:user)              { 'bin'                              }
+    let(:group)             { 'bin'                              }
     let(:log)               { "#{ temp_dir }/log"                }
     let(:application_root)  {
       File.expand_path 'spec/fixtures/sample-application'
