@@ -21,7 +21,11 @@ class ProcfileUpstartExporter::Destroyer
   attr_accessor :procfile_parser
 
   def destroy_all_jobs application, path
-    stopping_output = IO.popen(['stop', application], err: [:child, :out]).read
+    stopping_output = begin
+      IO.popen(['stop', application], err: [:child, :out]).read
+    rescue Errno::ENOENT
+      "Upstart binary not found. #{application} not stopped."
+    end
     ProcfileUpstartExporter.logger.debug stopping_output
     FileUtils.rm_rf File.join(path, "#{ application }.conf")
     FileUtils.rm_rf File.join(path, application)
