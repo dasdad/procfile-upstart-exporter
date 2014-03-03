@@ -90,7 +90,7 @@ setgid foo
 
 umask 0002
 
-env HOME=/Users/bin
+env HOME=/bin
 env RAILS_ENV=production
 env DATABASE_URL=postgresl://localhost:4567
 
