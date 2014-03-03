@@ -32,7 +32,11 @@ class ProcfileUpstartExporter::Destroyer
       process_name = File.basename job_absolute_path, '.conf'
       unless processes_names.include? process_name
         job = File.join application, process_name
-        stopping_output = IO.popen(['stop', job], err: [:child, :out]).read
+        stopping_output = begin
+          IO.popen(['stop', job], err: [:child, :out]).read
+        rescue Errno::ENOENT
+          "Upstart binary not found. #{job} not stopped."
+        end
         ProcfileUpstartExporter.logger.debug stopping_output
         FileUtils.rm_rf File.join(path, "#{ job }.conf")
       end
