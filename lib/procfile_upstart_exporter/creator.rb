@@ -10,7 +10,7 @@ class ProcfileUpstartExporter::Creator
   end
 
   def create(
-    application, procfile, log, environment, user, upstart_jobs_path,
+    application, procfile, log, environment, user, group, upstart_jobs_path,
     templates_path = File.expand_path('../../../templates', __FILE__)
   )
     ProcfileUpstartExporter.logger.debug 'Starting Upstart jobs creation ' \
@@ -20,15 +20,20 @@ class ProcfileUpstartExporter::Creator
     application_path     = File.join upstart_jobs_path, application
     application_log_path = File.join log, application
 
+    # --no-group -> nil
+    # --group "foo" -> "foo"
+    # default: false -> user
+    group = user if group == false
+
     FileUtils.cp application_template, application_job
     FileUtils.mkdir_p application_path
     FileUtils.mkdir_p application_log_path
-    FileUtils.chown user, user, application_log_path
+    FileUtils.chown user, group, application_log_path
     procfile_parser.parse(procfile).each do |process|
       File.write(
         File.join(application_path, "#{ process.name }.conf"),
         process_job_renderer.render(
-          application, user, environment_parser.parse(environment),
+          application, user, group, environment_parser.parse(environment),
           Dir.pwd, log, process
         )
       )

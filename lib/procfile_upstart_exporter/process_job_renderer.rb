@@ -11,7 +11,7 @@ class ProcfileUpstartExporter::ProcessJobRenderer
     @erb = ERB.new template, nil, '-'
   end
 
-  def render application, user, environment_variables, application_root,
+  def render application, user, group, environment_variables, application_root,
              log, process
     ProcfileUpstartExporter.logger.debug 'Start rendering process job'
     # Double assign to avoid warnings
