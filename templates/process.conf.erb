@@ -4,9 +4,9 @@ stop  on stopping <%= application %>
 respawn
 
 setuid <%= user %>
-<% if group %>
-  setgid <%= group %>
-<% end %>
+<% if group -%>
+setgid <%= group %>
+<% end -%>
 
 umask 0002
 
