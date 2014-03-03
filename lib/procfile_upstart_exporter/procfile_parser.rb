@@ -3,7 +3,7 @@ class ProcfileUpstartExporter::ProcfileParser
     ProcfileUpstartExporter.logger.debug 'Start parsing Procfile ' \
                                          "`#{ procfile }'"
     if File.exists? procfile
-      File.read(procfile).split("\n").map do |process_line|
+      File.read(procfile).split("\n").map(&:strip).reject(&:empty?).map do |process_line|
         ProcfileUpstartExporter::Process.new(
           *process_line.scan(/\A([^:]+):(.*)\z/).first.map(&:strip)
         )
