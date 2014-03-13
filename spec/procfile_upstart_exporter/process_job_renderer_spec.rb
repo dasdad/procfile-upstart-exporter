@@ -7,12 +7,13 @@ describe ProcfileUpstartExporter::ProcessJobRenderer do
 
   describe '#render' do
     subject(:process_job) {
-      process_job_renderer.render application, user, environment_variables,
+      process_job_renderer.render application, user, group, environment_variables,
                                   application_root, log, process
     }
 
     let(:application)       { 'application'                      }
     let(:user)              { 'bin'                              }
+    let(:group)             { 'bin'                              }
     let(:log)               { "#{ temp_dir }/log"                }
     let(:application_root)  {
       File.expand_path 'spec/fixtures/sample-application'
@@ -48,5 +49,55 @@ chdir #{ application_root }
 exec bash -lc 'bundle exec rails server -p 5000 >> #{ log }/application/web.log 2>&1'
 PROCESS_JOB
     end
-  end
+
+    context 'with a nil group' do
+      let(:group) { nil }
+
+      it 'renders the template without setgid' do
+        expect(process_job).to eq(<<-PROCESS_JOB)
+start on starting application
+stop  on stopping application
+
+respawn
+
+setuid bin
+
+umask 0002
+
+env HOME=/bin
+env RAILS_ENV=production
+env DATABASE_URL=postgresl://localhost:4567
+
+chdir #{ application_root }
+
+exec bash -lc 'bundle exec rails server -p 5000 >> #{ log }/application/web.log 2>&1'
+PROCESS_JOB
+      end
+    end
+
+    context 'with a group of foo' do
+      let(:group) { 'foo' }
+
+      it 'renders the template without setgid' do
+        expect(process_job).to eq(<<-PROCESS_JOB)
+start on starting application
+stop  on stopping application
+
+respawn
+
+setuid bin
+setgid foo
+
+umask 0002
+
+env HOME=/bin
+env RAILS_ENV=production
+env DATABASE_URL=postgresl://localhost:4567
+
+chdir #{ application_root }
+
+exec bash -lc 'bundle exec rails server -p 5000 >> #{ log }/application/web.log 2>&1'
+PROCESS_JOB
+      end
+    end  end
 end

@@ -16,6 +16,7 @@ class ProcfileUpstartExporter::Cli < Thor
   option :log, default: '/var/log'
   option :environment, default: '.env'
   option :user, default: 'app'
+  option :group, default: false, desc: "Sets the group that the process runs with. Specify --no-group to not specify a group. Defaults to the same as --user."
   option :path, default: '/etc/init'
   def create
     enter_verbose_mode if options[:verbose]
@@ -25,6 +26,7 @@ class ProcfileUpstartExporter::Cli < Thor
                    options[:log],
                    options[:environment],
                    options[:user],
+                   options[:group],
                    options[:path]
   end
 

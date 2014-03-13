@@ -13,7 +13,7 @@ describe ProcfileUpstartExporter::Creator do
   describe '#create' do
     subject(:create) {
       Dir.chdir 'spec/fixtures/sample-application' do
-        creator.create application, procfile, log, environment, user,
+        creator.create application, procfile, log, environment, user, group,
                                                               upstart_jobs_path
       end
     }
@@ -24,6 +24,7 @@ describe ProcfileUpstartExporter::Creator do
     let(:application_log)   { "#{ log }/#{ application}" }
     let(:environment)       { 'environment'              }
     let(:user)              { 'bin'                      }
+    let(:group)             { 'bin'                      }
     let(:upstart_jobs_path) { temp_dir                   }
     let(:application_root)  {
       File.expand_path 'spec/fixtures/sample-application'
@@ -52,7 +53,7 @@ describe ProcfileUpstartExporter::Creator do
                                    .and_return environment_variables
 
       allow(process_job_renderer).to receive(:render)
-        .with(application, user, environment_variables, application_root,
+        .with(application, user, group, environment_variables, application_root,
               log, web_process)
         .and_return <<-JOB_CONFIGURATION
 env RAILS_ENV=production
@@ -61,7 +62,7 @@ exec bundle exec rails server -p 5000
 JOB_CONFIGURATION
 
       allow(process_job_renderer).to receive(:render)
-        .with(application, user, environment_variables, application_root,
+        .with(application, user, group, environment_variables, application_root,
               log, background_process)
         .and_return <<-JOB_CONFIGURATION
 env RAILS_ENV=production
